@@ -9,7 +9,7 @@ setup(
     author='Michael L. Gantz',
     author_email='gantzm@gantzgulch.com',
     url='https://www.gantzgulch.com',
-    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',
+    download_url='https://github.com/GantzGulch-RedBanjo/RedBanjoPythonClient/archive/v_0.1.tar.gz',
     keywords=['RedBanjo'],
     install_requires=[
         'validators',
