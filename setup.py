@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='redbanjo',
     packages=['redbanjo'],
-    version='0.1',
+    version='0.1.1',
     license='MIT',
     description='RedBanjo python bindings.',
     author='Michael L. Gantz',
