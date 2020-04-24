@@ -1,2 +1,2 @@
-from redbanjo.RedBanjo import RedBanjo
+from redbanjo.RedBanjo import RedBanjo, RedBanjoFactory
 

@@ -5,27 +5,6 @@ import datetime
 import logging
 
 
-class Singleton:
-
-    def __init__(self, cls):
-        self._cls = cls
-        # self._instance = None
-
-    def Instance(self):
-
-        try:
-            return self._instance
-        except AttributeError:
-            self._instance = self._cls()
-            return self._instance
-
-    def __call__(self):
-        raise TypeError('Singletons must be accessed through `Instance()`.')
-
-    def __instancecheck__(self, inst):
-        return isinstance(inst, self._cls)
-
-
 class RedBanjoConfig:
 
     def __init__(self):
@@ -67,9 +46,9 @@ class RedBanjoChannel:
         self._logger.info('execution id: %s', self._execution_id)
 
     def now(self) -> datetime.datetime:
-        dtnow: datetime.datetime = datetime.datetime.now(tz=datetime.timezone.utc)
+        time_now: datetime.datetime = datetime.datetime.now(tz=datetime.timezone.utc)
 
-        return dtnow;
+        return time_now;
 
     def send_message(self, msg_type, msg_data):
         msg = {
@@ -96,7 +75,6 @@ class RedBanjoChannel:
         self._pipe.close()
 
 
-@Singleton
 class RedBanjo:
 
     def __init__(self):
@@ -120,12 +98,23 @@ class RedBanjo:
 
         self._channel.send_message("recordMetric", msg_data)
 
-    def record_assertion(self, isTrue: bool, reason: str, description: str):
+    def record_assertion(self, is_true: bool, reason: str, description: str):
         msg_data = {
             "timestamp": int(self._channel.now() * 1000),
-            "isTrue": isTrue,
+            "isTrue": is_true,
             "reason": reason,
             "description": description
         }
 
         self._channel.send_message("makeAssertion", msg_data)
+
+
+class RedBanjoFactory:
+    __instance: RedBanjo = RedBanjo()
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def get(cls) -> RedBanjo:
+        return cls.__instance
