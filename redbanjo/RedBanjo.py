@@ -45,10 +45,10 @@ class RedBanjoChannel:
         self._logger.info('channel path: %s', self._path)
         self._logger.info('execution id: %s', self._execution_id)
 
-    def now(self) -> datetime.datetime:
+    def now(self) -> int:
         time_now: datetime.datetime = datetime.datetime.now(tz=datetime.timezone.utc)
 
-        return time_now;
+        return int(time_now.timestamp() * 1000)
 
     def send_message(self, msg_type, msg_data):
         msg = {
@@ -91,7 +91,7 @@ class RedBanjo:
     def record_metric(self, name: str, value_numeric, value_string: str):
         msg_data = {
             "name": name,
-            "ts": int(self._channel.now() * 1000),
+            "ts": int(self._channel.now()),
             "valueNumeric": value_numeric,
             "valueString": value_string
         }
@@ -100,7 +100,7 @@ class RedBanjo:
 
     def record_assertion(self, is_true: bool, reason: str, description: str):
         msg_data = {
-            "timestamp": int(self._channel.now() * 1000),
+            "timestamp": int(self._channel.now()),
             "isTrue": is_true,
             "reason": reason,
             "description": description
@@ -110,11 +110,14 @@ class RedBanjo:
 
 
 class RedBanjoFactory:
-    __instance: RedBanjo = RedBanjo()
+    __instance: RedBanjo = None
 
     def __init__(self):
         pass
 
     @classmethod
     def get(cls) -> RedBanjo:
+        if cls.__instance is None:
+            cls.__instance = RedBanjo()
+
         return cls.__instance

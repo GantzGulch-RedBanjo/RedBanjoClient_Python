@@ -1,11 +1,19 @@
 from distutils.core import setup
 
+from os import path
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='redbanjo',
     packages=['redbanjo'],
-    version='0.1.2',
+    version='0.1.6',
     license='MIT',
     description='RedBanjo python bindings.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Michael L. Gantz',
     author_email='gantzm@gantzgulch.com',
     url='https://www.gantzgulch.com',
